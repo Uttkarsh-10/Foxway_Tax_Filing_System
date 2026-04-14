@@ -1,19 +1,15 @@
-const mysql = require("mysql2");
 require("dotenv").config();
 
-const db = mysql.createConnection({
-    uri: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
+const mysql = require("mysql2");
+
+const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+connection.connect((err) => {
+  if (err) {
+    console.error("DB connection failed:", err);
+  } else {
+    console.log("Database connected ✅");
+  }
 });
 
-db.connect((err) => {
-    if (err) {
-        console.error("DB Connection Failed ❌", err);
-    } else {
-        console.log("Connected to MySQL ✅");
-    }
-});
-
-module.exports = db;
+module.exports = connection;
